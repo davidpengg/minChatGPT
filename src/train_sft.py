@@ -6,8 +6,8 @@ from dataset import EYLSFTStaticDataset
 from configs import get_configs
 
 
-def train(pretrain, batch_size, exp_name):
-    device = 'cuda'
+def train(pretrain, batch_size, exp_name, gpuid):
+    device = f'cuda:{gpuid}'
     cfg = get_configs("gpt2-medium/dropout")
     cfg.max_steps = 200000 // batch_size
     cfg.batch_size = batch_size
@@ -33,9 +33,10 @@ def train(pretrain, batch_size, exp_name):
 @click.option('--pretrain', '-p', default="huggingface")
 @click.option('--batch-size', '-b', default=1)
 @click.option('--exp-name', '-n', default="default")
-def main(strategy, pretrain, batch_size, exp_name):
+@click.option('--gpuid', '-g', default='0')
+def main(strategy, pretrain, batch_size, exp_name, gpuid):
     torch.manual_seed(1234)
-    train(pretrain, batch_size, exp_name)
+    train(pretrain, batch_size, exp_name, gpuid)
 
 
 if __name__ == "__main__":

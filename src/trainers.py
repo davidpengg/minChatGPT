@@ -327,7 +327,7 @@ class SFTTrainer(Trainer):
         self.cfg = cfg
         self.run_name = f"sft_{cfg.exp_name}_{datetime.now().strftime('%Y%m%d%H%M')}"
         self.device = device
-        assert self.device == 'cuda'
+        assert self.device.startswith('cuda')
         self.max_steps = cfg.max_steps
         self.eval_freq = 1
         self.save_freq = 20000
@@ -379,7 +379,7 @@ class SFTTrainer(Trainer):
             x = x.to(self.device)
             y = y.to(self.device)
 
-            with torch.autocast(device_type=self.device, dtype=self.dtype):
+            with torch.autocast(device_type=self.device.split(':')[0], dtype=self.dtype):
                 y_hat = opt_model(x)  # (B, 1)
                 loss = self.criterion(y_hat, y)  # (B, 1)
 
@@ -407,6 +407,31 @@ class SFTTrainer(Trainer):
 
         self.save_states(step, True)
 
+class DPOTrainer(Trainer):
+    def __init__(
+        self,
+        cfg: TrainingConfig,
+        device,
+        model: nn.Module,
+        train_dataset,
+        test_dataset,
+    ) -> None:
+        super().__init__()
+        self.cfg = cfg
+        self.run_name = f"sft_{cfg.exp_name}_{datetime.now().strftime('%Y%m%d%H%M')}"
+        self.device = device
+        assert self.device.startswith('cuda')
+        
+        self.train_dataloader = DataLoader(train_dataset,
+                                           batch_size=cfg.batch_size,
+                                           num_workers=8,
+                                           shuffle=True,
+                                           pin_memory=True)
+        self.test_dataloader = DataLoader(test_dataset,
+                                          batch_size=cfg.batch_size,
+                                          num_workers=8,
+                                          pin_memory=True)
+        self.model = model
 
 class RewardModelTrainer(Trainer):
 
