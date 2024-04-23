@@ -11,6 +11,9 @@ from torch.utils.checkpoint import checkpoint
 from tokenizer import TiktokenTokenizer
 
 
+import os
+os.environ["TIKTOKEN_CACHE_DIR"] = ""
+
 # [1] Attention is all you need
 # [2] Improving Language Understanding by Generated Pre-Training
 # [3] Note 10: Self-Attention & Transformers
