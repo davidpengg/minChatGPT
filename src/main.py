@@ -19,10 +19,10 @@ def prepare_gpt2_input(prompt, device):
     return x, decode
 
 
-def generate_gpt2(model, prompt, device, samples=2):
+def generate_gpt2(model, prompt, device, samples=1):
     model.eval()
     model.to(device)
-    max_new_tokens = 50
+    max_new_tokens = 500
     temperature = 0.9
     top_k = 200
     x, decode = prepare_gpt2_input(prompt, device)
@@ -32,7 +32,17 @@ def generate_gpt2(model, prompt, device, samples=2):
                            max_new_tokens,
                            temperature=temperature,
                            top_k=top_k)
-        print(decode(y[0].tolist()))
+        decoded = decode(y[0].tolist())
+        
+        print(decoded)
+        print('  -----------  ')
+        if "<|endoftext|>" in decoded:
+            eos_id = decoded.find("<|endoftext|>")
+            decoded = decoded[:eos_id]
+        assistant_split = decoded.split('Human:')
+        if len(assistant_split) > 2:
+            decoded = ''.join(assistant_split[:2]).strip()
+        print(decoded)
         print('---------------')
 
 
@@ -44,7 +54,7 @@ def main(task):
     if task == 'gpt':
         prompt = """Human: Hello, my name is Kate. What is your name?
 Assitant:"""
-        cfg = get_configs("gpt2-xl")
+        cfg = get_configs("gpt2-medium")
         model = GPT.from_pretrained(cfg)
         generate_gpt2(model, prompt, device, samples=10)
     elif task == "unwrap_gpt":
@@ -52,8 +62,8 @@ Assitant:"""
 Assitant:"""
         ckpt_file = "1678083261_step40000.pt"
         new_file = "original_sft_" + ckpt_file
-        ckpt_path = "./runs/sft_1678083261/"
-        cfg = get_configs("gpt2-xl")
+        ckpt_path = "./runs/sft_default_202404141028/"
+        cfg = get_configs("gpt2-medium")
 
         model = GPT.from_checkpoint(cfg, ckpt_path + ckpt_file, compile=True)
         mods = model.modules()
@@ -75,7 +85,7 @@ Assitant:"""
 
         model = GPT.from_checkpoint(
             cfg,
-            "./runs/ppo_gpt2medium-batch1-fp16_202303170754/ppo_gpt2medium-batch1-fp16_202303170754_actor_step50.pt")
+            "./runs/sft_default_202404141028/sft_default_202404141028_final.pt")
         # model = GPT.from_checkpoint(
         #     cfg, "./runs/sft_1678085469/original_sft_1678085469_step100000.pt")
         generate_gpt2(model, prompt, device, samples=10)
