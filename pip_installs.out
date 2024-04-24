@@ -1,0 +1,826 @@
+[GCC 7.5.0] :: Anaconda, Inc. on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch; torch.cuda.is_available()
+True
+>>> 
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ python train_sft.py 
+Loading EYLSFTStaticDataset train split
+Loaded 19934053 tokens from 84576 examples.
+Loading EYLSFTStaticDataset test split
+Loaded 844060 tokens from 3451 examples.
+=========================================================================================================
+Layer (type:depth-idx)                                  Output Shape              Param #
+=========================================================================================================
+GPT                                                     [1, 1024, 50257]          --
+├─TransformerDecoder: 1-1                               [1, 1024, 1024]           --
+│    └─Embedding: 2-1                                   [1, 1024, 1024]           51,463,168
+│    └─Embedding: 2-2                                   [1, 1024, 1024]           1,048,576
+│    └─Dropout: 2-3                                     [1, 1024, 1024]           --
+│    └─ModuleList: 2-4                                  --                        --
+│    │    └─TransformerDecoderBlock: 3-1                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-2                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-3                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-4                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-5                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-6                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-7                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-8                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-9                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-10               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-11               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-12               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-13               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-14               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-15               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-16               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-17               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-18               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-19               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-20               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-21               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-22               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-23               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-24               [1, 1024, 1024]           12,596,224
+│    └─LayerNorm: 2-5                                   [1, 1024, 1024]           2,048
+├─Linear: 1-2                                           [1, 1024, 50257]          51,463,168
+=========================================================================================================
+Total params: 406,286,336
+Trainable params: 406,286,336
+Non-trainable params: 0
+Total mult-adds (M): 406.29
+=========================================================================================================
+Input size (MB): 0.01
+Forward/backward pass size (MB): 2651.46
+Params size (MB): 1625.15
+Estimated Total Size (MB): 4276.62
+=========================================================================================================
+Traceback (most recent call last):
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 43, in <module>
+    main()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 39, in main
+    train(pretrain, batch_size, exp_name, gpuid)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 28, in train
+    trainer.fit()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/trainers.py", line 383, in fit
+    y_hat = opt_model(x)  # (B, 1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/eval_frame.py", line 451, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 921, in catch_errors
+    return callback(frame, cache_entry, hooks, frame_state, skip=1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 786, in _convert_frame
+    result = inner_convert(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 400, in _convert_frame_assert
+    return _compile(
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 676, in _compile
+    guarded_code = compile_inner(code, one_graph, hooks, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 535, in compile_inner
+    out_code = transform_code_object(code, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/bytecode_transformation.py", line 1036, in transform_code_object
+    transformations(instructions, code_options)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 165, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 500, in transform
+    tracer.run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2149, in run
+    super().run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 810, in run
+    and self.step()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 773, in step
+    getattr(self, inst.opname)(inst)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2268, in RETURN_VALUE
+    self.output.compile_subgraph(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 971, in compile_subgraph
+    self.compile_and_call_fx_graph(tx, list(reversed(stack_values)), root)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1168, in compile_and_call_fx_graph
+    compiled_fn = self.call_user_compiler(gm)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1241, in call_user_compiler
+    raise BackendCompilerFailed(self.compiler_fn, e).with_traceback(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1222, in call_user_compiler
+    compiled_fn = compiler_fn(gm, self.example_inputs())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_dynamo.py", line 117, in debug_wrapper
+    compiled_gm = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/__init__.py", line 1729, in __call__
+    return compile_fx(model_, inputs_, config_patches=self.config)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1330, in compile_fx
+    return aot_autograd(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/backends/common.py", line 58, in compiler_fn
+    cg = aot_module_simplified(gm, example_inputs, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 903, in aot_module_simplified
+    compiled_fn = create_aot_dispatcher_function(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 628, in create_aot_dispatcher_function
+    compiled_fn = compiler_fn(flat_fn, fake_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 443, in aot_wrapper_dedupe
+    return compiler_fn(flat_fn, leaf_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 648, in aot_wrapper_synthetic_base
+    return compiler_fn(flat_fn, flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/jit_compile_runtime_wrappers.py", line 352, in aot_dispatch_autograd
+    compiled_fw_func = aot_config.fw_compiler(fw_module, adjusted_flat_args)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1257, in fw_compiler_base
+    return inner_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_aot.py", line 83, in debug_wrapper
+    inner_compiled_fn = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/debug.py", line 304, in inner
+    return fn(*args, **kwargs)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 438, in compile_fx_inner
+    compiled_graph = fx_codegen_and_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 714, in fx_codegen_and_compile
+    compiled_fn = graph.compile_to_fn()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1307, in compile_to_fn
+    return self.compile_to_module().call
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1254, in compile_to_module
+    mod = PyCodeCache.load_by_key_path(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2160, in load_by_key_path
+    exec(code, mod.__dict__, mod.__dict__)
+  File "/tmp/torchinductor_dp823/22/c22clej4q3ta5iibmpmphraywwkgvfybd3eu6otklfmvodcfazoi.py", line 984, in <module>
+    async_compile.wait(globals())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2715, in wait
+    scope[key] = result.result()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2523, in result
+    kernel = self.kernel = _load_kernel(self.kernel_name, self.source_code)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2499, in _load_kernel
+    kernel.precompile()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 208, in precompile
+    compiled_binary, launcher = self._precompile_config(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 372, in _precompile_config
+    binary._init_handles()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/triton/compiler/compiler.py", line 250, in _init_handles
+    self.module, self.function, self.n_regs, self.n_spills = driver.utils.load_binary(
+torch._dynamo.exc.BackendCompilerFailed: backend='inductor' raised:
+RuntimeError: Triton Error [CUDA]: device kernel image is invalid
+
+Set TORCH_LOGS="+dynamo" and TORCHDYNAMO_VERBOSE=1 for more information
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ python
+Python 3.9.12 (main, Apr  5 2022, 06:56:58) 
+[GCC 7.5.0] :: Anaconda, Inc. on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch
+>>> import triton
+>>> print(triton.common.backend.path_to_ptxas())
+('/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/triton/common/../third_party/cuda/bin/ptxas', '12.3')
+>>> 
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ echo $TRITON_PTXAS_PATH
+
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls /usr/bin/cu
+cudafe++        cuda-gdb        cuda-gdbserver  cuda-memcheck   cuobjdump       cupstestppd     curl            cut             
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls /usr/bin/cu
+cudafe++        cuda-gdb        cuda-gdbserver  cuda-memcheck   cuobjdump       cupstestppd     curl            cut             
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls /usr/bin/cuda-
+cuda-gdb        cuda-gdbserver  cuda-memcheck   
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls /usr/local/cuda
+cuda/      cuda-11.1/ 
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls /usr/local/cuda/
+bin/                     include/                 nsight-compute-2020.2.0/ nvml/                    src/
+compute-sanitizer/       lib64/                   nsightee_plugins/        nvvm/                    targets/
+extras/                  libnvvp/                 nsight-systems-2020.3.4/ share/                   
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls /usr/local/cuda/bin/ptxas 
+chatgpt_preferences.json  __init__.py               __pycache__/              sft_train.json            train_rm.py
+configs.py                llama.py                  responses.json            tensorboard.ipynb         train_sft.py
+dataset.py                loss.py                   runs/                     tokenizer.py              
+evaluate.py               main.py                   sample.py                 train_dpo.py              
+.gitattributes            nohup.out                 scripts/                  trainers.py               
+gpt.py                    prompts.csv               sft_test.json             train_ppo.py              
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ python train_sft.py 
+Loading EYLSFTStaticDataset train split
+Loaded 19934053 tokens from 84576 examples.
+Loading EYLSFTStaticDataset test split
+Loaded 844060 tokens from 3451 examples.
+=========================================================================================================
+Layer (type:depth-idx)                                  Output Shape              Param #
+=========================================================================================================
+GPT                                                     [1, 1024, 50257]          --
+├─TransformerDecoder: 1-1                               [1, 1024, 1024]           --
+│    └─Embedding: 2-1                                   [1, 1024, 1024]           51,463,168
+│    └─Embedding: 2-2                                   [1, 1024, 1024]           1,048,576
+│    └─Dropout: 2-3                                     [1, 1024, 1024]           --
+│    └─ModuleList: 2-4                                  --                        --
+│    │    └─TransformerDecoderBlock: 3-1                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-2                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-3                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-4                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-5                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-6                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-7                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-8                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-9                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-10               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-11               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-12               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-13               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-14               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-15               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-16               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-17               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-18               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-19               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-20               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-21               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-22               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-23               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-24               [1, 1024, 1024]           12,596,224
+│    └─LayerNorm: 2-5                                   [1, 1024, 1024]           2,048
+├─Linear: 1-2                                           [1, 1024, 50257]          51,463,168
+=========================================================================================================
+Total params: 406,286,336
+Trainable params: 406,286,336
+Non-trainable params: 0
+Total mult-adds (M): 406.29
+=========================================================================================================
+Input size (MB): 0.01
+Forward/backward pass size (MB): 2651.46
+Params size (MB): 1625.15
+Estimated Total Size (MB): 4276.62
+=========================================================================================================
+Traceback (most recent call last):
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 43, in <module>
+    main()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 39, in main
+    train(pretrain, batch_size, exp_name, gpuid)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 28, in train
+    trainer.fit()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/trainers.py", line 383, in fit
+    y_hat = opt_model(x)  # (B, 1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/eval_frame.py", line 451, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 921, in catch_errors
+    return callback(frame, cache_entry, hooks, frame_state, skip=1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 786, in _convert_frame
+    result = inner_convert(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 400, in _convert_frame_assert
+    return _compile(
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 676, in _compile
+    guarded_code = compile_inner(code, one_graph, hooks, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 535, in compile_inner
+    out_code = transform_code_object(code, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/bytecode_transformation.py", line 1036, in transform_code_object
+    transformations(instructions, code_options)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 165, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 500, in transform
+    tracer.run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2149, in run
+    super().run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 810, in run
+    and self.step()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 773, in step
+    getattr(self, inst.opname)(inst)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2268, in RETURN_VALUE
+    self.output.compile_subgraph(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 971, in compile_subgraph
+    self.compile_and_call_fx_graph(tx, list(reversed(stack_values)), root)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1168, in compile_and_call_fx_graph
+    compiled_fn = self.call_user_compiler(gm)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1241, in call_user_compiler
+    raise BackendCompilerFailed(self.compiler_fn, e).with_traceback(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1222, in call_user_compiler
+    compiled_fn = compiler_fn(gm, self.example_inputs())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_dynamo.py", line 117, in debug_wrapper
+    compiled_gm = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/__init__.py", line 1729, in __call__
+    return compile_fx(model_, inputs_, config_patches=self.config)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1330, in compile_fx
+    return aot_autograd(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/backends/common.py", line 58, in compiler_fn
+    cg = aot_module_simplified(gm, example_inputs, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 903, in aot_module_simplified
+    compiled_fn = create_aot_dispatcher_function(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 628, in create_aot_dispatcher_function
+    compiled_fn = compiler_fn(flat_fn, fake_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 443, in aot_wrapper_dedupe
+    return compiler_fn(flat_fn, leaf_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 648, in aot_wrapper_synthetic_base
+    return compiler_fn(flat_fn, flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/jit_compile_runtime_wrappers.py", line 352, in aot_dispatch_autograd
+    compiled_fw_func = aot_config.fw_compiler(fw_module, adjusted_flat_args)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1257, in fw_compiler_base
+    return inner_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_aot.py", line 83, in debug_wrapper
+    inner_compiled_fn = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/debug.py", line 304, in inner
+    return fn(*args, **kwargs)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 438, in compile_fx_inner
+    compiled_graph = fx_codegen_and_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 714, in fx_codegen_and_compile
+    compiled_fn = graph.compile_to_fn()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1307, in compile_to_fn
+    return self.compile_to_module().call
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1254, in compile_to_module
+    mod = PyCodeCache.load_by_key_path(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2160, in load_by_key_path
+    exec(code, mod.__dict__, mod.__dict__)
+  File "/tmp/torchinductor_dp823/22/c22clej4q3ta5iibmpmphraywwkgvfybd3eu6otklfmvodcfazoi.py", line 984, in <module>
+    async_compile.wait(globals())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2715, in wait
+    scope[key] = result.result()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2523, in result
+    kernel = self.kernel = _load_kernel(self.kernel_name, self.source_code)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2499, in _load_kernel
+    kernel.precompile()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 208, in precompile
+    compiled_binary, launcher = self._precompile_config(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 372, in _precompile_config
+    binary._init_handles()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/triton/compiler/compiler.py", line 250, in _init_handles
+    self.module, self.function, self.n_regs, self.n_spills = driver.utils.load_binary(
+torch._dynamo.exc.BackendCompilerFailed: backend='inductor' raised:
+RuntimeError: Triton Error [CUDA]: device kernel image is invalid
+
+Set TORCH_LOGS="+dynamo" and TORCHDYNAMO_VERBOSE=1 for more information
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ pip freeze > min_requirements.txt
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ python train_sft.py 
+Loading EYLSFTStaticDataset train split
+Loaded 19934053 tokens from 84576 examples.
+Loading EYLSFTStaticDataset test split
+Loaded 844060 tokens from 3451 examples.
+=========================================================================================================
+Layer (type:depth-idx)                                  Output Shape              Param #
+=========================================================================================================
+GPT                                                     [1, 1024, 50257]          --
+├─TransformerDecoder: 1-1                               [1, 1024, 1024]           --
+│    └─Embedding: 2-1                                   [1, 1024, 1024]           51,463,168
+│    └─Embedding: 2-2                                   [1, 1024, 1024]           1,048,576
+│    └─Dropout: 2-3                                     [1, 1024, 1024]           --
+│    └─ModuleList: 2-4                                  --                        --
+│    │    └─TransformerDecoderBlock: 3-1                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-2                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-3                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-4                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-5                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-6                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-7                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-8                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-9                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-10               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-11               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-12               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-13               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-14               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-15               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-16               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-17               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-18               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-19               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-20               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-21               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-22               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-23               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-24               [1, 1024, 1024]           12,596,224
+│    └─LayerNorm: 2-5                                   [1, 1024, 1024]           2,048
+├─Linear: 1-2                                           [1, 1024, 50257]          51,463,168
+=========================================================================================================
+Total params: 406,286,336
+Trainable params: 406,286,336
+Non-trainable params: 0
+Total mult-adds (M): 406.29
+=========================================================================================================
+Input size (MB): 0.01
+Forward/backward pass size (MB): 2651.46
+Params size (MB): 1625.15
+Estimated Total Size (MB): 4276.62
+=========================================================================================================
+        Traceback (most recent call last):
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 43, in <module>
+    main()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 39, in main
+    train(pretrain, batch_size, exp_name, gpuid)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 28, in train
+    trainer.fit()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/trainers.py", line 383, in fit
+    y_hat = opt_model(x)  # (B, 1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/eval_frame.py", line 451, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 921, in catch_errors
+    return callback(frame, cache_entry, hooks, frame_state, skip=1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 786, in _convert_frame
+    result = inner_convert(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 400, in _convert_frame_assert
+    return _compile(
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 676, in _compile
+    guarded_code = compile_inner(code, one_graph, hooks, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 535, in compile_inner
+    out_code = transform_code_object(code, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/bytecode_transformation.py", line 1036, in transform_code_object
+    transformations(instructions, code_options)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 165, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 500, in transform
+    tracer.run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2149, in run
+    super().run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 810, in run
+    and self.step()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 773, in step
+    getattr(self, inst.opname)(inst)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2268, in RETURN_VALUE
+    self.output.compile_subgraph(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 971, in compile_subgraph
+    self.compile_and_call_fx_graph(tx, list(reversed(stack_values)), root)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1168, in compile_and_call_fx_graph
+    compiled_fn = self.call_user_compiler(gm)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1241, in call_user_compiler
+    raise BackendCompilerFailed(self.compiler_fn, e).with_traceback(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1222, in call_user_compiler
+    compiled_fn = compiler_fn(gm, self.example_inputs())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_dynamo.py", line 117, in debug_wrapper
+    compiled_gm = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/__init__.py", line 1729, in __call__
+    return compile_fx(model_, inputs_, config_patches=self.config)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1330, in compile_fx
+    return aot_autograd(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/backends/common.py", line 58, in compiler_fn
+    cg = aot_module_simplified(gm, example_inputs, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 903, in aot_module_simplified
+    compiled_fn = create_aot_dispatcher_function(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 628, in create_aot_dispatcher_function
+    compiled_fn = compiler_fn(flat_fn, fake_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 443, in aot_wrapper_dedupe
+    return compiler_fn(flat_fn, leaf_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 648, in aot_wrapper_synthetic_base
+    return compiler_fn(flat_fn, flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/jit_compile_runtime_wrappers.py", line 352, in aot_dispatch_autograd
+    compiled_fw_func = aot_config.fw_compiler(fw_module, adjusted_flat_args)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1257, in fw_compiler_base
+    return inner_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_aot.py", line 83, in debug_wrapper
+    inner_compiled_fn = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/debug.py", line 304, in inner
+    return fn(*args, **kwargs)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 438, in compile_fx_inner
+    compiled_graph = fx_codegen_and_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 714, in fx_codegen_and_compile
+    compiled_fn = graph.compile_to_fn()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1307, in compile_to_fn
+    return self.compile_to_module().call
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1254, in compile_to_module
+    mod = PyCodeCache.load_by_key_path(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2160, in load_by_key_path
+    exec(code, mod.__dict__, mod.__dict__)
+  File "/tmp/torchinductor_dp823/22/c22clej4q3ta5iibmpmphraywwkgvfybd3eu6otklfmvodcfazoi.py", line 984, in <module>
+    async_compile.wait(globals())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2715, in wait
+    scope[key] = result.result()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2523, in result
+    kernel = self.kernel = _load_kernel(self.kernel_name, self.source_code)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2499, in _load_kernel
+    kernel.precompile()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 208, in precompile
+    compiled_binary, launcher = self._precompile_config(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 372, in _precompile_config
+    binary._init_handles()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/triton/compiler/compiler.py", line 250, in _init_handles
+    self.module, self.function, self.n_regs, self.n_spills = driver.utils.load_binary(
+torch._dynamo.exc.BackendCompilerFailed: backend='inductor' raised:
+RuntimeError: Triton Error [CUDA]: device kernel image is invalid
+
+Set TORCH_LOGS="+dynamo" and TORCHDYNAMO_VERBOSE=1 for more information
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls ../env/
+bin/        include/    lib/        lib64/      pyvenv.cfg  share/      
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls ../env/lib
+lib/   lib64/ 
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls ../env/lib
+lib/   lib64/ 
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls ../env/lib/python3.9/site-packages/
+Display all 154 possibilities? (y or n)
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls ../env/lib/python3.9/site-packages/nvidia/cud
+cuda_cupti/   cuda_nvcc/    cuda_nvrtc/   cuda_runtime/ cudnn/        
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ pwd /env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas 
+/home/dp823/minChatGPT/my_minChatGPT/src
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls /env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas 
+ls: cannot access '/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas': No such file or directory
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ ls ../env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas 
+../env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ pwd
+/home/dp823/minChatGPT/my_minChatGPT/src
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ cd ../env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas 
+bash: cd: ../env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas: Not a directory
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ cd ../env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin$ pwd
+/home/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin$ pwd -P
+/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin$ TRITON_PTXAS_PATH=/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin$ cd -
+/home/dp823/minChatGPT/my_minChatGPT/src
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ python train_sft.py 
+Loading EYLSFTStaticDataset train split
+Loaded 19934053 tokens from 84576 examples.
+Loading EYLSFTStaticDataset test split
+Loaded 844060 tokens from 3451 examples.
+=========================================================================================================
+Layer (type:depth-idx)                                  Output Shape              Param #
+=========================================================================================================
+GPT                                                     [1, 1024, 50257]          --
+├─TransformerDecoder: 1-1                               [1, 1024, 1024]           --
+│    └─Embedding: 2-1                                   [1, 1024, 1024]           51,463,168
+│    └─Embedding: 2-2                                   [1, 1024, 1024]           1,048,576
+│    └─Dropout: 2-3                                     [1, 1024, 1024]           --
+│    └─ModuleList: 2-4                                  --                        --
+│    │    └─TransformerDecoderBlock: 3-1                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-2                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-3                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-4                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-5                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-6                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-7                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-8                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-9                [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-10               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-11               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-12               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-13               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-14               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-15               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-16               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-17               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-18               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-19               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-20               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-21               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-22               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-23               [1, 1024, 1024]           12,596,224
+│    │    └─TransformerDecoderBlock: 3-24               [1, 1024, 1024]           12,596,224
+│    └─LayerNorm: 2-5                                   [1, 1024, 1024]           2,048
+├─Linear: 1-2                                           [1, 1024, 50257]          51,463,168
+=========================================================================================================
+Total params: 406,286,336
+Trainable params: 406,286,336
+Non-trainable params: 0
+Total mult-adds (M): 406.29
+=========================================================================================================
+Input size (MB): 0.01
+Forward/backward pass size (MB): 2651.46
+Params size (MB): 1625.15
+Estimated Total Size (MB): 4276.62
+=========================================================================================================
+Traceback (most recent call last):
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 43, in <module>
+    main()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 39, in main
+    train(pretrain, batch_size, exp_name, gpuid)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/train_sft.py", line 28, in train
+    trainer.fit()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/src/trainers.py", line 383, in fit
+    y_hat = opt_model(x)  # (B, 1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/eval_frame.py", line 451, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 921, in catch_errors
+    return callback(frame, cache_entry, hooks, frame_state, skip=1)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 786, in _convert_frame
+    result = inner_convert(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 400, in _convert_frame_assert
+    return _compile(
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 676, in _compile
+    guarded_code = compile_inner(code, one_graph, hooks, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 535, in compile_inner
+    out_code = transform_code_object(code, transform)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/bytecode_transformation.py", line 1036, in transform_code_object
+    transformations(instructions, code_options)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 165, in _fn
+    return fn(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/convert_frame.py", line 500, in transform
+    tracer.run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2149, in run
+    super().run()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 810, in run
+    and self.step()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 773, in step
+    getattr(self, inst.opname)(inst)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/symbolic_convert.py", line 2268, in RETURN_VALUE
+    self.output.compile_subgraph(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 971, in compile_subgraph
+    self.compile_and_call_fx_graph(tx, list(reversed(stack_values)), root)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1168, in compile_and_call_fx_graph
+    compiled_fn = self.call_user_compiler(gm)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1241, in call_user_compiler
+    raise BackendCompilerFailed(self.compiler_fn, e).with_traceback(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/output_graph.py", line 1222, in call_user_compiler
+    compiled_fn = compiler_fn(gm, self.example_inputs())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_dynamo.py", line 117, in debug_wrapper
+    compiled_gm = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/__init__.py", line 1729, in __call__
+    return compile_fx(model_, inputs_, config_patches=self.config)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1330, in compile_fx
+    return aot_autograd(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/backends/common.py", line 58, in compiler_fn
+    cg = aot_module_simplified(gm, example_inputs, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 903, in aot_module_simplified
+    compiled_fn = create_aot_dispatcher_function(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/aot_autograd.py", line 628, in create_aot_dispatcher_function
+    compiled_fn = compiler_fn(flat_fn, fake_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 443, in aot_wrapper_dedupe
+    return compiler_fn(flat_fn, leaf_flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 648, in aot_wrapper_synthetic_base
+    return compiler_fn(flat_fn, flat_args, aot_config, fw_metadata=fw_metadata)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_functorch/_aot_autograd/jit_compile_runtime_wrappers.py", line 352, in aot_dispatch_autograd
+    compiled_fw_func = aot_config.fw_compiler(fw_module, adjusted_flat_args)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 1257, in fw_compiler_base
+    return inner_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/repro/after_aot.py", line 83, in debug_wrapper
+    inner_compiled_fn = compiler_fn(gm, example_inputs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/debug.py", line 304, in inner
+    return fn(*args, **kwargs)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/home/lily/dp823/miniconda3/lib/python3.9/contextlib.py", line 79, in inner
+    return func(*args, **kwds)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 438, in compile_fx_inner
+    compiled_graph = fx_codegen_and_compile(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/compile_fx.py", line 714, in fx_codegen_and_compile
+    compiled_fn = graph.compile_to_fn()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1307, in compile_to_fn
+    return self.compile_to_module().call
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_dynamo/utils.py", line 262, in time_wrapper
+    r = func(*args, **kwargs)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/graph.py", line 1254, in compile_to_module
+    mod = PyCodeCache.load_by_key_path(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2160, in load_by_key_path
+    exec(code, mod.__dict__, mod.__dict__)
+  File "/tmp/torchinductor_dp823/22/c22clej4q3ta5iibmpmphraywwkgvfybd3eu6otklfmvodcfazoi.py", line 984, in <module>
+    async_compile.wait(globals())
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2715, in wait
+    scope[key] = result.result()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2523, in result
+    kernel = self.kernel = _load_kernel(self.kernel_name, self.source_code)
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/codecache.py", line 2499, in _load_kernel
+    kernel.precompile()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 208, in precompile
+    compiled_binary, launcher = self._precompile_config(
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/torch/_inductor/triton_heuristics.py", line 372, in _precompile_config
+    binary._init_handles()
+  File "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/triton/compiler/compiler.py", line 250, in _init_handles
+    self.module, self.function, self.n_regs, self.n_spills = driver.utils.load_binary(
+torch._dynamo.exc.BackendCompilerFailed: backend='inductor' raised:
+RuntimeError: Triton Error [CUDA]: device kernel image is invalid
+
+Set TORCH_LOGS="+dynamo" and TORCHDYNAMO_VERBOSE=1 for more information
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+(env) (base) dp823@ziva:~/minChatGPT/my_minChatGPT/src$ 

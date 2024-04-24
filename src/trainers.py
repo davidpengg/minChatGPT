@@ -41,6 +41,9 @@ from tokenizer import TiktokenTokenizer
 
 # import bitsandbytes as bnb
 
+import os
+os.environ["TRITON_PTXAS_PATH"] = "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas"
+
 
 class Trainer:
 
