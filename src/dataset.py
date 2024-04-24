@@ -7,6 +7,8 @@ import random
 import json
 from tokenizer import TiktokenTokenizer
 
+import os
+os.environ["TIKTOKEN_CACHE_DIR"] = ""
 
 class DahoasSFTStaticPromptsDataset(Dataset):
 
@@ -155,7 +157,8 @@ class DahoasSFTStaticDataset(IterableDataset):
         y = self.tokens[start + 1:start + self.block_size + 1]
         yield x, y
 
-
+# TODO! add labels data for each batch item
+# see DPO's preference_datasets.py:tokenize_batch_element()
 class DahoasRMStaticDataset(Dataset):
     """
     https://huggingface.co/datasets/Dahoas/rm-static
@@ -167,7 +170,8 @@ class DahoasRMStaticDataset(Dataset):
                  max_examples=None,
                  tokenizer_name='tiktoken/gpt2') -> None:
         super().__init__()
-        dataset = load_dataset("Dahoas/rm-static", split=split)
+        # dataset = load_dataset("Dahoas/rm-static", split=split)
+        dataset = load_dataset('/data/lily/dp823/.cache/huggingface/datasets/Dahoas___parquet', split=split) # TODO tmp
         self.pairs = []
         self.masks = []
 
@@ -181,9 +185,19 @@ class DahoasRMStaticDataset(Dataset):
 
         cnt = 0
         print(f"Loading DahoasRMStaticDataset {split} split")
+        len_positive = 0
+        len_negative = 0
+        len_instruction = 0
         for data in dataset:
             cnt += 1
             prompt = data['prompt']
+
+            len_ins = min(1024, len(tokenizer(data['prompt'])['input_ids']))
+            len_pos = min(1024, len(tokenizer(data['chosen'])['input_ids']))
+            len_neg = min(1024, len(tokenizer(data['rejected'])['input_ids']))
+            len_positive += len_pos
+            len_negative += len_neg
+            len_instruction += len_ins
 
             positive_text = prompt + data['chosen'] + "<|endoftext|>"
             positive = tokenizer(positive_text,
@@ -209,6 +223,11 @@ class DahoasRMStaticDataset(Dataset):
                     dim=0))
             if max_examples and cnt >= max_examples:
                 break
+        print(f"loaded {cnt} examples")
+        print(len_positive / cnt)
+        print(len_negative / cnt)
+        print(len_instruction / cnt)
+        x = 1
 
     @classmethod
     def save(cls, split, fp):

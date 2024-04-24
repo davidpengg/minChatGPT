@@ -54,6 +54,19 @@ class CrossEntropyLoss(nn.Module):
                                y.view(-1),
                                ignore_index=-1)
 
+class DPOLoss(nn.Module):
+
+    def forward(
+        self, 
+        a,
+        b,
+        c,
+        d,
+    ):
+        """
+        scores: shape of (B, C) where C is number of completions ranked in order
+        """
+        pass
 
 class KPairwiseLoss(nn.Module):
 
