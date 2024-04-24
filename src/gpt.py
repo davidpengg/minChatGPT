@@ -240,11 +240,12 @@ class GPT(nn.Module):
     def from_checkpoint(cls,
                         cfg: TrainingConfig,
                         ckpt_path: str,
-                        compile=False):
+                        compile=False,
+                        map_location="cpu"):
         model = GPT(cfg)
         if compile:
             model = torch.compile(model)
-        checkpoint = torch.load(ckpt_path, map_location="cpu")
+        checkpoint = torch.load(ckpt_path, map_location=map_location)
         # for k, v in checkpoint["model_state_dict"].items():
         #     print(k)
         model.load_state_dict(checkpoint["model_state_dict"], strict=True)
