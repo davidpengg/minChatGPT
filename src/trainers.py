@@ -4,7 +4,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from torch.utils.checkpoint import checkpoint
-from loss import KPairwiseLoss, CrossEntropyLoss, ValueLoss, PolicyLoss
+from loss import KPairwiseLoss, CrossEntropyLoss, ValueLoss, PolicyLoss, DPOLoss
 import torch.optim as optim
 from torch.cuda.amp.grad_scaler import GradScaler
 import statistics
@@ -38,12 +38,28 @@ from torch.distributed.fsdp.wrap import (
 from torch.nn.utils.rnn import pack_sequence, pad_packed_sequence
 from tokenizer import TiktokenTokenizer
 
-
+import os
+os.environ["TRITON_PTXAS_PATH"] = "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas"
 # import bitsandbytes as bnb
 
 import os
 os.environ["TRITON_PTXAS_PATH"] = "/data/lily/dp823/minChatGPT/my_minChatGPT/env/lib/python3.9/site-packages/nvidia/cuda_nvcc/bin/ptxas"
 
+def _get_logps(logits, labels):
+    # TODO! from DPO repo's trainers.py:_get_batch_logps()
+    # and make it concatenated???
+    assert logits.shape[:-1] == labels.shape
+
+    labels = labels[:, 1:].clone()
+    logits = logits[:, :-1, :]
+    loss_mask = (labels != -100)
+
+    # dummy token; we'll ignore the losses on these tokens later
+    labels[labels == -100] = 0
+
+    per_token_logps = torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)).squeeze(2)
+
+    return (per_token_logps * loss_mask).sum(-1)
 
 class Trainer:
 
@@ -415,15 +431,17 @@ class DPOTrainer(Trainer):
         self,
         cfg: TrainingConfig,
         device,
-        model: nn.Module,
+        policy: nn.Module,
+        reference: nn.Module,
         train_dataset,
         test_dataset,
     ) -> None:
         super().__init__()
         self.cfg = cfg
-        self.run_name = f"sft_{cfg.exp_name}_{datetime.now().strftime('%Y%m%d%H%M')}"
+        self.run_name = f"dpo_{cfg.exp_name}_{datetime.now().strftime('%Y%m%d%H%M')}"
         self.device = device
         assert self.device.startswith('cuda')
+        self.total_epochs = cfg.total_epochs
         
         self.train_dataloader = DataLoader(train_dataset,
                                            batch_size=cfg.batch_size,
@@ -434,7 +452,89 @@ class DPOTrainer(Trainer):
                                           batch_size=cfg.batch_size,
                                           num_workers=8,
                                           pin_memory=True)
-        self.model = model
+        self.policy = policy
+        self.reference = reference
+        self.criterion = DPOLoss()
+        self.finetune_method = cfg.finetune_method
+        self.optimizer = optim.Adam(self.policy.parameters(), lr=cfg.lr)
+        self.dtype = torch.float16
+
+        hp = {
+            "dtype": str(self.dtype),
+            "train_dataset": type(train_dataset).__name__,
+            "train_dataset_len": len(train_dataset),
+            "test_dataset": type(test_dataset).__name__,
+            "test_dataset_len": len(test_dataset),
+            **cfg.dict(),
+        }
+        self.save_hyperparams(hp)
+    
+    def fit(self):
+        if self.finetune_method:
+            self.policy.freeze_weights(self.finetune_method)
+        summary(self.policy, input_data=torch.ones(1, 1024).long())
+
+        policy = torch.compile(self.policy)
+        policy.to(self.device)
+
+        reference = torch.compile(self.reference)
+        reference.to(self.device)
+
+        writer = SummaryWriter(f'./runs/{self.run_name}/logs', max_queue=40)
+        scaler = GradScaler(enabled=self.dtype != torch.float32)
+
+        for epoch in range(self.total_epochs):
+            policy.train()
+            for step, (completions, attention_masks) in enumerate(
+                pbar := tqdm(self.train_dataloader)):
+                total_steps = step + epoch * len(self.train_dataloader)
+                completions = completions.to(self.device)
+                attention_masks = attention_masks.to(self.device)
+
+                with torch.autocast(device_type=self.device.split(':')[0], dtype=self.dtype):
+                    breakpoint()
+                    policy_chosen_logits = policy(
+                        completions[:, 0, :],
+                        attention_masks[:, 0, :])
+                    policy_rejected_logits = policy(
+                        completions[:, 1, :],
+                        attention_masks[:, 1, :])
+                    with torch.no_grad():
+                        breakpoint()
+                        reference_chosen_logits = reference(
+                            completions[:, 0, :],
+                            attention_masks[:, 0, :])
+                        reference_rejected_logits = reference(
+                            completions[:, 1, :],
+                            attention_masks[:, 1, :])
+                    policy_chosen_logprobs = _get_logps(policy_chosen_logits)
+                    policy_rejected_logprobs = _get_logps(policy_rejected_logits)
+                    reference_chosen_logprobs = _get_logps(reference_chosen_logits)
+                    reference_rejected_logprobs = _get_logps(reference_rejected_logits)
+                    loss = self.criterion(
+                        policy_chosen_logprobs,
+                        policy_rejected_logprobs,
+                        reference_chosen_logprobs,
+                        reference_rejected_logprobs
+                    )
+                    # loss = self.criterion(
+                    #     torch.cat((policy_chosen_logits, policy_rejected_logits),
+                    #               dim=-1))  # (B, 2)
+
+                if self.grad_clip != 0.0:
+                    torch.nn.utils.clip_grad_norm_(policy.parameters(),
+                                                   self.grad_clip)
+
+                scaler.scale(loss).backward()
+                scaler.step(self.optimizer)
+                scaler.update()
+                self.optimizer.zero_grad(set_to_none=True)
+                lossf = loss.item()
+                writer.add_scalar('Loss/train/step', lossf, total_steps)
+                pbar.set_description(f"batch loss {round(lossf, 3)}")
+
+                if total_steps != 0 and total_steps % self.save_freq == 0:
+                    self.save_states(total_steps)
 
 class RewardModelTrainer(Trainer):
 
